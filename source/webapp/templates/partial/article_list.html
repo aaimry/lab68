@@ -7,7 +7,15 @@
 {% for article in articles %}
 
     <h3>{{ article.upper }}</h3>
-
+    {% if user.is_authenticated %}
+{#        {% if user not in article.likes.all %}#}
+        <span class="like_count">{{ article.likes.count }} </span>
+        <a class="like"  data-like="like" data-count="0" href="{% url 'webapp:article_like' article.pk %}"><i class="bi bi-heart"></i> Like</a>
+{#        {% else %}#}
+        <a class="unlike"  data-unlike="unlike" data-id="0" href="{% url 'webapp:article_unlike' article.pk %}"><i
+                    class="bi bi-heart-fill"></i>Unlike</a>
+{#        {% endif %}#}
+    {% endif %}
     <p><a href="{{ article.get_absolute_url }}">Подробнее...</a></p>
 
     {% if perms.webapp.change_article or user == article.author %}
@@ -18,7 +26,7 @@
         <p><a href="{% url "webapp:article_delete_view" article.pk %}">Удалить</a></p>
     {% endif %}
 
-{% empty %}
+    {% empty %}
     <p>Статьи не найдены...</p>
 {% endfor %}
 

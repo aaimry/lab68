@@ -1,10 +1,12 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.views import View
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 
 from webapp.forms import CommentForm
-from webapp.models import Comment, Article
+from webapp.models import Comment, Article, CommentLike
 
 
 class CommentCreateView(CreateView):
@@ -47,3 +49,28 @@ class CommentDeleteView(PermissionRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse("webapp:article_view", kwargs={"pk": self.object.article.pk})
+
+
+class CommentLikeView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        comment = get_object_or_404(Comment, id=kwargs.get('pk'))
+        print(comment)
+        user_likes = user.comment_likes.all()
+        if user_likes.filter(comment=comment).count() > 0:
+            return HttpResponseForbidden('Вы уже поставили лайк :)')
+        else:
+            CommentLike.objects.create(user=user, comment=comment).save()
+        return JsonResponse({"likes": comment.likes.count()})
+
+
+class CommentUnlikeView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        comment = get_object_or_404(Comment, id=kwargs.get('pk'))
+        user_likes = user.comment_likes.all()
+        if user_likes.filter(comment=comment).count() > 0:
+            CommentLike.objects.get(user=user, comment=comment).delete()
+        else:
+            return HttpResponseForbidden('Кажется, вашего лайка тут и не было :(')
+        return JsonResponse({"likes": comment.likes.count()})

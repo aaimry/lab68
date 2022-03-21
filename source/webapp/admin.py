@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from webapp.models import Article, Comment, Tag
+from webapp.models import Article, Comment, Tag, ArticleLike, CommentLike
 
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -8,7 +8,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_filter = ['author']
     search_fields = ['title', 'content']
     fields = ['title', 'author', 'content', 'tags', 'created_at', 'updated_at']
-    readonly_fields = ['created_at', 'updated_at']
+    readonly_fields = ['created_at', 'updated_at',]
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -22,3 +22,5 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Comment)
 admin.site.register(Tag, TagAdmin)
+admin.site.register(ArticleLike)
+admin.site.register(CommentLike)

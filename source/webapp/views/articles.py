@@ -2,11 +2,14 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     PermissionRequiredMixin
 )
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import ArticleForm, ArticleDeleteForm
-from webapp.models import Article
+from webapp.models import Article, ArticleLike
 from webapp.views.base import SearchView
 
 
@@ -17,7 +20,7 @@ class IndexView(SearchView):
     paginate_by = 3
     paginate_orphans = 0
     search_fields = ["title__icontains", "author__icontains"]
-    ordering=["-updated_at"]
+    ordering = ["-updated_at"]
 
 
 class ArticleCreateView(PermissionRequiredMixin, CreateView):
@@ -63,3 +66,28 @@ class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
         if self.request.method == "POST":
             kwargs['instance'] = self.object
         return kwargs
+
+
+class ArticleLikeView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        article = get_object_or_404(Article, id=kwargs.get('pk'))
+        user_likes = user.article_likes.all()
+        if user_likes.filter(article=article).count() > 0:
+            return HttpResponseForbidden('Вы уже постаивли лайк :)')
+        else:
+            ArticleLike.objects.create(user=user, article=article).save()
+        return JsonResponse({"likes": article.likes.count(), 'id': article.pk})
+
+
+class ArticleUnlikeView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        article = get_object_or_404(Article, id=kwargs.get('pk'))
+        user_likes = user.article_likes.all()
+        if user_likes.filter(article=article).count() > 0:
+            ArticleLike.objects.get(user=user, article=article).delete()
+        else:
+            return HttpResponseForbidden('Кажется, вашего лайка тут и не было :(')
+        return JsonResponse({"likes": article.likes.count(), 'id': article.pk})
+
