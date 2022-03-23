@@ -17,7 +17,8 @@ async function onLike(event) {
 
     try {
         let response = await makeRequest(url);
-        let unLikeBtn = document.getElementById(`${likeBtn.id}`)
+        let unLikeId = likeBtn.dataset['btnToHide'];
+        let unLikeBtn = document.getElementById(`${unLikeId}`)
         const like_count = document.getElementById(`counter${likeBtn.id}`);
         like_count.innerText = response.likes;
         likeBtn.hidden = true;
@@ -36,8 +37,9 @@ async function onUnlike(event) {
 
     try {
         let response = await makeRequest(url);
-        let likeBtn = document.getElementById(`${unlikeBtn.id}`)
-        const like_count = document.getElementById(`counter${unlikeBtn.id}`);
+        let likeBtnId = unlikeBtn.dataset['btnToHide'];
+        let likeBtn = document.getElementById(`${likeBtnId}`)
+        const like_count = document.getElementById(`counter${likeBtnId}`);
         like_count.innerText = response.likes;
         unlikeBtn.hidden = true;
         likeBtn.hidden = false;
@@ -55,8 +57,10 @@ window.addEventListener('load', function () {
     for (let btn in likeButtons) {
         likeButtons[btn].onclick = onLike;
         likeButtons[btn].id = `${btn}`;
+        likeButtons[btn].dataset['btnToHide'] = `unlike${btn}`;
         counters[btn].id = `counter${btn}`;
         unlikeButtons[btn].onclick = onUnlike;
-        unlikeButtons[btn].id = `${btn}`;
+        unlikeButtons[btn].id = `unlike${btn}`;
+        unlikeButtons[btn].dataset['btnToHide'] =`${btn}`;
     }
 });

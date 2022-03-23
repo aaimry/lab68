@@ -29,6 +29,7 @@ class Article(BaseModel):
         default=1,
         verbose_name="Автор",
     )
+    likes = models.ManyToManyField(get_user_model(), through='webapp.ArticleLike', through_fields=('article', 'user'))
 
     def get_absolute_url(self):
         return reverse('webapp:article_view', kwargs={'pk': self.pk})
@@ -71,6 +72,7 @@ class Comment(BaseModel):
                                 related_name="comments",
                                 verbose_name="Статья",
                                 )
+    likes = models.ManyToManyField(get_user_model(), through='webapp.CommentLike', through_fields=('comment', 'user'))
 
     class Meta:
         db_table = 'comments'
@@ -82,7 +84,7 @@ class ArticleLike(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
                              related_name='article_likes', verbose_name='Пользователь')
     article = models.ForeignKey('webapp.Article', on_delete=models.CASCADE,
-                                related_name='likes', verbose_name='Статья')
+                                related_name='articles_likes', verbose_name='Статья')
 
     def __str__(self):
         return f'{self.user.username} - {self.article.title}'
@@ -96,7 +98,7 @@ class CommentLike(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
                              related_name='comment_likes', verbose_name='Пользователь')
     comment = models.ForeignKey('webapp.Comment', on_delete=models.CASCADE,
-                                related_name='likes', verbose_name='Комментарий')
+                                related_name='comment_likes', verbose_name='Комментарий')
 
     def __str__(self):
         return f'{self.user.username} - {self.comment.author}'

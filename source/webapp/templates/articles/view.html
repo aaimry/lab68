@@ -25,7 +25,16 @@
     <h1>{{ article.author }}</h1>
     <h3>{{ article.title }}</h3>
     <p>{{ article.content }}</p>
-    <p>{{ article.likes.count }}</p>
+        {% if user.is_authenticated %}
+        <span class="like_count">{{ article.likes.count }}</span>
+        <a class="like"  data-btnToHide="unlike"
+           {% if user in article.likes.all %} hidden {% endif %}
+           href="{% url 'webapp:article_like' article.pk %} "><i class="bi bi-heart"></i> Like</a>
+        <a class="unlike"  data-btnToHide="like"
+                {% if user not in article.likes.all %} hidden {% endif %}
+           href="{% url 'webapp:article_unlike' article.pk %}"><i
+                    class="bi bi-heart-fill"></i>Unlike</a>
+    {% endif %}
     <br>
     <h3>Комментарии</h3>
     {% for comment in comments %}
@@ -33,14 +42,15 @@
         <p>{{ comment.author }}</p>
         <p>{{ comment.content }}</p>
         {% if user.is_authenticated %}
-            {% if user not in user.comment_likes.all %}
-                <p class="like_count">{{ comment.likes.count }} <a href="{% url 'webapp:comment_like' comment.pk %}"><i
-                        class="bi bi-heart"></i> Like</a></p>
-            {% endif %}
-            {% if user in user.comment_likes.all %}
-                <a class="unlike" href="{% url 'webapp:comment_unlike' comment.pk %}"><i class="bi bi-heart-fill"></i>Unlike</a>
-            {% endif %}
-        {% endif %}
+            <span class="like_count">{{ comment.likes.count }}</span>
+            <a class="like"  data-btnToHide="unlike"
+               {% if user in comment.likes.all %} hidden {% endif %}
+               href="{% url 'webapp:comment_like' comment.pk %} "><i class="bi bi-heart"></i> Like</a>
+            <a class="unlike"  data-btnToHide="like"
+                    {% if user not in comment.likes.all %} hidden {% endif %}
+               href="{% url 'webapp:comment_unlike' comment.pk %}"><i
+                        class="bi bi-heart-fill"></i>Unlike</a>
+    {% endif %}
         {% if perms.webapp.change_comment or user == commnet.author %}
             <p><a href="{% url "webapp:comment_update_view" comment.pk %}">Изменить</a></p>
         {% endif %}

@@ -8,13 +8,14 @@
 
     <h3>{{ article.upper }}</h3>
     {% if user.is_authenticated %}
-{#        {% if user not in article.likes.all %}#}
-        <span class="like_count">{{ article.likes.count }} </span>
-        <a class="like"  data-like="like" data-count="0" href="{% url 'webapp:article_like' article.pk %}"><i class="bi bi-heart"></i> Like</a>
-{#        {% else %}#}
-        <a class="unlike"  data-unlike="unlike" data-id="0" href="{% url 'webapp:article_unlike' article.pk %}"><i
+        <span class="like_count">{{ article.likes.count }}</span>
+        <a class="like"  data-btnToHide="unlike"
+           {% if user in article.likes.all %} hidden {% endif %}
+           href="{% url 'webapp:article_like' article.pk %} "><i class="bi bi-heart"></i> Like</a>
+        <a class="unlike"  data-btnToHide="like"
+                {% if user not in article.likes.all %} hidden {% endif %}
+           href="{% url 'webapp:article_unlike' article.pk %}"><i
                     class="bi bi-heart-fill"></i>Unlike</a>
-{#        {% endif %}#}
     {% endif %}
     <p><a href="{{ article.get_absolute_url }}">Подробнее...</a></p>
 
