@@ -1,47 +1,12 @@
 [
 {
     "model": "webapp.article",
-    "pk": 1,
-    "fields": {
-        "created_at": "2022-02-21T12:11:01.058Z",
-        "updated_at": "2022-02-21T12:15:13.908Z",
-        "title": "������  �1",
-        "content": "����� ������ #1\r\n\r\n��� �������� ������ ��� ������� 1.",
-        "author": [
-            "author"
-        ],
-        "tags": [
-            2,
-            4,
-            5
-        ]
-    }
-},
-{
-    "model": "webapp.article",
-    "pk": 2,
-    "fields": {
-        "created_at": "2022-02-21T12:15:42.833Z",
-        "updated_at": "2022-02-21T12:15:42.833Z",
-        "title": "������ �2",
-        "content": "����� ������ #2\r\n\r\n��� �������� ������ ��� ������� 2.",
-        "author": [
-            "author"
-        ],
-        "tags": [
-            1,
-            6
-        ]
-    }
-},
-{
-    "model": "webapp.article",
     "pk": 3,
     "fields": {
         "created_at": "2022-02-21T12:17:29.051Z",
-        "updated_at": "2022-02-21T12:17:29.051Z",
-        "title": "������ �3",
-        "content": "����� ������ #3\r\n\r\n��� �������� ������ ��� ������� 3.",
+        "updated_at": "2022-03-28T08:41:00.438Z",
+        "title": "это статья №3 отредактированая через PUT",
+        "content": "Статья под номером  3. PUT",
         "author": [
             "author"
         ],
@@ -52,110 +17,34 @@
     }
 },
 {
-    "model": "webapp.tag",
-    "pk": 1,
-    "fields": {
-        "created_at": "2022-02-21T12:14:22.860Z",
-        "updated_at": "2022-02-21T12:14:22.860Z",
-        "name": "�����"
-    }
-},
-{
-    "model": "webapp.tag",
-    "pk": 2,
-    "fields": {
-        "created_at": "2022-02-21T12:14:28.868Z",
-        "updated_at": "2022-02-21T12:14:28.869Z",
-        "name": "��������"
-    }
-},
-{
-    "model": "webapp.tag",
-    "pk": 3,
-    "fields": {
-        "created_at": "2022-02-21T12:14:33.958Z",
-        "updated_at": "2022-02-21T12:14:33.958Z",
-        "name": "�������"
-    }
-},
-{
-    "model": "webapp.tag",
+    "model": "webapp.article",
     "pk": 4,
     "fields": {
-        "created_at": "2022-02-21T12:14:44.727Z",
-        "updated_at": "2022-02-21T12:14:44.727Z",
-        "name": "����������"
-    }
-},
-{
-    "model": "webapp.tag",
-    "pk": 5,
-    "fields": {
-        "created_at": "2022-02-21T12:14:49.790Z",
-        "updated_at": "2022-02-21T12:14:49.790Z",
-        "name": "�����"
-    }
-},
-{
-    "model": "webapp.tag",
-    "pk": 6,
-    "fields": {
-        "created_at": "2022-02-21T12:14:55.531Z",
-        "updated_at": "2022-02-21T12:14:55.531Z",
-        "name": "����������"
-    }
-},
-{
-    "model": "webapp.comment",
-    "pk": 1,
-    "fields": {
-        "created_at": "2022-03-23T19:10:08.430Z",
-        "updated_at": "2022-03-23T19:10:08.430Z",
-        "content": "ghfhdfh",
+        "created_at": "2022-03-28T10:47:34.657Z",
+        "updated_at": "2022-03-28T10:47:34.657Z",
+        "title": "testovaya statiya",
+        "content": "test test test",
         "author": [
             "admin"
         ],
-        "article": 2
+        "tags": [
+            1
+        ]
     }
 },
 {
-    "model": "webapp.articlelike",
-    "pk": 42,
+    "model": "webapp.article",
+    "pk": 5,
     "fields": {
-        "user": [
-            "moderator"
-        ],
-        "article": 1
-    }
-},
-{
-    "model": "webapp.articlelike",
-    "pk": 48,
-    "fields": {
-        "user": [
-            "author"
-        ],
-        "article": 2
-    }
-},
-{
-    "model": "webapp.articlelike",
-    "pk": 53,
-    "fields": {
-        "user": [
-            "moderator"
-        ],
-        "article": 3
-    }
-},
-{
-    "model": "webapp.articlelike",
-    "pk": 58,
-    "fields": {
-        "user": [
+        "created_at": "2022-03-28T10:48:10.872Z",
+        "updated_at": "2022-03-28T10:48:54.361Z",
+        "title": "i love MINECRAFT!!!",
+        "content": "minecraft is life",
+        "author": [
             "admin"
         ],
-        "article": 2
+        "tags": [
+            4
+        ]
     }
-}
-]
+}]
