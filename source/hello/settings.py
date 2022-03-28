@@ -41,7 +41,8 @@ INSTALLED_APPS = [
 
     # Custom apps
     'webapp',
-    'accounts'
+    'accounts',
+    'api_v1'
 
     # Lib apps
 ]
